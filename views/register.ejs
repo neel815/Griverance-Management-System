@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/login.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Register</h1>
+        <form action="/register" method="POST">
+            <input type="text" name="Username" placeholder="Username" required>
+            <input type="password" name="Password" placeholder="Password" required>
+            <input type="email" name="Email" placeholder="Email" required>
+            <select name="Role" id="role">
+                <option>Employee</option>
+                <option>Administrator</option>
+                <option>HR</option>
+            </select>
+            <select name="Department" multiple id="department" style="display: none;">
+                <option>Employee Relations</option>
+                <option>Compensation and Benefits</option>
+                <option>Performance Management</option>
+                <option>Training and Development</option>
+                <option>Health and Safety</option>
+                <option>Diversity and Inclusion</option>
+                <option>Recruitment and Onboarding</option>
+                <option>Others</option>
+            </select>
+            <input type="submit" value="Register" style="margin: 5px;">
+        </form>
+        <% if (locals.message) { %>
+            <p style="color: red;"><%= message %></p>
+        <% } %>
+        <a href="/login" >Login here!</a>
+    </div>
+</body>
+<script>
+    const roleSelect = document.getElementById('role');
+    const departmentSelect = document.getElementById('department');
+
+    roleSelect.addEventListener('change', function () {
+        if (roleSelect.value === 'HR') {
+            departmentSelect.style.display = 'block';
+        } else {
+            departmentSelect.style.display = 'none';
+        }
+    });
+</script>
+</html>

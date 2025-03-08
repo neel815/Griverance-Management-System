@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grievance Support System</title>
+    <style>
+        p {
+            white-space: pre-wrap;
+        }
+    </style>
+    <link rel="stylesheet" href="/employee_main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <h2>Your Grievances</h2>
+    <form action="/selectPost/<%= user_id %>" method="post">
+        <select name="category">
+            <option>Open</option>
+            <option>Closed</option>
+            <option>Sent to HR</option>
+        </select>
+        <input type="submit" value="Submit">
+    </form>
+    <% for (let i=0;i<data.length;i++) {%>
+        <p><%= data[i].grievance_title %></p>
+        <p><%= data[i].grievance_desc %></p>
+        <p>Status: <%= data[i].status %></p>
+        <p class="time">Posted On: <%= data[i].grievance_post_datetime %></p>
+        <a href="/grievance/<%= data[i].id %>/<%= user_id %>"><button>Open</button></a>
+    <% } %>
+    <h2>Post new Grievance</h2>
+    <form action="/grievancePost/<%= user_id %>" method="post">
+        <input type="text" name="Title" placeholder="Enter Title of Grievance">
+        <br>
+        <textarea name="Description" placeholder="Enter Details of Grievance" style="white-space: pre-wrap;"></textarea>
+        <br>
+        <label for="department">Department:</label>
+        <select name="Department">
+            <option>Employee Relations</option>
+            <option>Compensation and Benefits</option>
+            <option>Performance Management</option>
+            <option>Training and Development</option>
+            <option>Health and Safety</option>
+            <option>Diversity and Inclusion</option>
+            <option>Recruitment and Onboarding</option>
+            <option>Others</option>
+        </select>
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+<script>
+    let elements = document.getElementsByClassName('time');
+    for (let i=0;i<elements.length;i++) {
+        let date = new Date(elements[i].textContent);
+        elements[i].textContent = 'Posted On: '+ date.getDate() + ' ' + date.toLocaleString('default', { month: 'long' }) + ' ' + date.getFullYear() + ' '+date.getHours()+':'+date.getMinutes();
+    }
+</script>
+</html>

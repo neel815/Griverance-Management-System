@@ -1,0 +1,8 @@
+<% grievances.forEach(grievance => { %>
+    <li>
+      <a href="/grievance/<%= grievance.grievance_id %>/<%= user_id %>">
+        <h3><%= grievance.grievance_title %></h3>
+      </a>
+    </li>
+  <% }); %>
+  

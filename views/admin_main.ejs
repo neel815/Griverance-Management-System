@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/admin_main.css" >
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <h2><%= message %> Grievances</h2>
+    <form action="/selectPostAdmin/<%= user_id %>" method="post">
+        <select name="category">
+            <option>Open</option>
+            <option>Closed</option>
+            <option>Sent to HR</option>
+        </select>
+        <input type="submit" value="Submit" >
+    </form>
+    <% for (let i=0;i<grievance_data.length;i++) { %>
+        <h3><%= grievance_data[i].grievance_title %></h3>
+        <p><%= grievance_data[i].grievance_desc %></p>
+        <p>Status: <%= grievance_data[i].status %></p>
+        <% if (locals.departments) { %>
+            <p>Department: <%= departments[i] %></p>
+        <% } %>
+        <p>Posted By: <%= poster[i] %></p>
+        <p class="time"><%= grievance_data[i].grievance_post_datetime %></p>
+        <a href="/grievance/<%= grievance_data[i].id %>/<%= user_id %>" ><button>Open</button></a>
+        <% if (sendtohrbutton) { %>
+            <a href="/sendToHR/<%= grievance_data[i].id %>/<%= user_id %>"><button>Send To HR</button></a>
+            <p>Send to some other department</p>
+            <form action="/sendToHR/<%= grievance_data[i].id %>/<%= user_id %>" method="post">
+                <select name="Department">
+                    <option>Employee Relations</option>
+                    <option>Compensation and Benefits</option>
+                    <option>Performance Management</option>
+                    <option>Training and Development</option>
+                    <option>Health and Safety</option>
+                    <option>Diversity and Inclusion</option>
+                    <option>Recruitment and Onboarding</option>
+                    <option>Others</option>
+                </select>
+                <input type="submit" value="Send">
+            </form>
+        <% } %>
+    <% } %>
+</body>
+<script>
+    let elements = document.getElementsByClassName('time');
+    for (let i=0;i<elements.length;i++) {
+        let date = new Date(elements[i].textContent);
+        elements[i].textContent = 'Posted On: '+ date.getDate() + ' ' + date.toLocaleString('default', { month: 'long' }) + ' ' + date.getFullYear() + ' '+date.getHours()+':'+date.getMinutes();
+    }
+</script>
+</html>

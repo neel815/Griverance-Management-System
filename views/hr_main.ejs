@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/hr_main.css" >
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <h2><%= message %> Grievances</h2>
+    <form action="/selectPostHR/<%= user_id %>" method="post">
+        <select name="category">
+            <option>Sent To HR</option>
+            <option>Open</option>
+            <option>Closed</option>
+        </select>
+        <input type="submit" value="Submit" >
+    </form>
+    <% for (let i=0;i<data.length;i++) { %>
+        <h3><%= data[i].grievance_title %></h3>
+        <p><%= data[i].grievance_desc %></p>
+        <p>Status: <%= data[i].status %></p>
+        <p>Posted By: <%= poster[i] %></p>
+        <p class="time"><%= data[i].grievance_post_datetime %></p>
+        <a href="/grievance/<%= data[i].id %>/<%= user_id %>"><button>Open</button></a>
+        <% if (closedbutton) { %>
+            <a href="/close/<%= data[i].id %>/<%= user_id %>"><button>Close Grievance</button></a>
+        <% } %>
+    <% } %>
+</body>
+<script>
+    let elements = document.getElementsByClassName('time');
+    for (let i=0;i<elements.length;i++) {
+        let date = new Date(elements[i].textContent);
+        elements[i].textContent = 'Posted On: '+ date.getDate() + ' ' + date.toLocaleString('default', { month: 'long' }) + ' ' + date.getFullYear() + ' '+date.getHours()+':'+date.getMinutes();
+    }
+</script>
+</html>
